@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExpressDork </title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        h1 {
+            color: #007BFF;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input {
+            padding: 8px;
+            width: 300px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 8px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            margin-right: 5px; /* Butonlar arasındaki boşluğu ayarlar */
+        }
+
+        #dorks {
+            margin-top: 20px;
+        }
+
+        #openBtn {
+            margin-top: 10px;
+        }
+
+        div.dork-item {
+            margin-bottom: 10px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dork Finder</h1>
+    <label for="domain">Enter a domain:</label>
+    <input type="text" id="domain" placeholder="example.com">
+    <button onclick="updateDorks()">Update</button>
+    <button onclick="selectAllDorks()">Select All</button>
+    <button onclick="clearAllDorks()">Clear All</button>
+
+    <div id="dorks">
+     
+    </div>
+    
+       <button id="openBtn" onclick="openSelectedDorks()">Open Selected Dorks</button>
+
+    <script>
+function updateDorks() {
+    var domain = document.getElementById('domain').value;
+    var dorksContainer = document.getElementById('dorks');
+    dorksContainer.innerHTML = '';
+
+    var sampleDorks = [
+        `site:${domain} ext:php inurl:?`,
+        `site:${domain} inurl:/admin`,
+        `site:${domain} intitle:"index of" AND intext:"backup"`,
+        `site:${domain} inurl:"/db/"`,
+        // Daha fazla dork eklenebilir...
+    ];
+
+   sampleDorks.forEach(function(dork) {
+                var dorkElement = document.createElement('div');
+                dorkElement.className = 'dork-item';
+                
+                var label = document.createElement('label');
+                
+                var checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.value = dork;
+                
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(dork));
+                
+                dorkElement.appendChild(label);
+                
+                dorksContainer.appendChild(dorkElement);
+            });
+        }
+
+        function openSelectedDorks() {
+            var selectedDorks = document.querySelectorAll('#dorks input:checked');
+            selectedDorks.forEach(function(checkbox) {
+                var dork = checkbox.value;
+                window.open(`https://www.google.com/search?q=${encodeURIComponent(dork)}`, '_blank');
+            });
+        }
+
+        function selectAllDorks() {
+            var dorkCheckboxes = document.querySelectorAll('#dorks input[type="checkbox"]');
+            dorkCheckboxes.forEach(function(checkbox) {
+                checkbox.checked = true;
+            });
+        }
+
+        function clearAllDorks() {
+            var dorkCheckboxes = document.querySelectorAll('#dorks input[type="checkbox"]');
+            dorkCheckboxes.forEach(function(checkbox) {
+                checkbox.checked = false;
+            });
+        }
+    </script>
+</body>
+</html>
